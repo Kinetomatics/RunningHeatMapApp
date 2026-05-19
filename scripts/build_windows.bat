@@ -23,6 +23,8 @@ set "PYTHON=.venv\Scripts\python.exe"
 "%PYTHON%" -m pip install -r requirements.txt
 "%PYTHON%" scripts\generate_icons.py
 set PYINSTALLER_CONFIG_DIR=%CD%\build\pyinstaller-cache
+if exist "dist\RunningHeatmap" rmdir /s /q "dist\RunningHeatmap"
+if exist "build\RunningHeatmap" rmdir /s /q "build\RunningHeatmap"
 "%PYTHON%" -m PyInstaller --clean --noconfirm RunningHeatmap.spec
 powershell -NoProfile -ExecutionPolicy Bypass -Command "if (Test-Path 'dist\RunningHeatmap-windows.zip') { Remove-Item 'dist\RunningHeatmap-windows.zip' }; Compress-Archive -Path 'dist\RunningHeatmap' -DestinationPath 'dist\RunningHeatmap-windows.zip'"
 "%PYTHON%" scripts\check_release.py dist\RunningHeatmap-windows.zip

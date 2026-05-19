@@ -92,6 +92,8 @@ Builds must be created on the target operating system:
 
 The packaged app opens a local browser window and stores generated files in the user's local application data folder. When the browser tab is closed, the local app server shuts down automatically after a short grace period. Signed installers, notarization, and app-store style distribution are not included yet.
 
+If Windows still shows an older app icon after rebuilding, it is usually Explorer's icon cache. The build script deletes the old `dist\RunningHeatmap` folder before rebuilding, but Windows may keep showing the cached icon for the same executable path. Moving the rebuilt folder to a new location, renaming the folder once, or restarting Windows Explorer refreshes it.
+
 The VS Code and notebook workflow still works through `app.py`, `launcher.py`, and `heatmap.ipynb`.
 
 Create a clean source release:
