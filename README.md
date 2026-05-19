@@ -90,7 +90,7 @@ Builds must be created on the target operating system:
 | macOS | `scripts/build_mac.sh` | `dist/RunningHeatmap-mac.zip` |
 | Windows | `scripts\build_windows.bat` | `dist\RunningHeatmap-windows.zip` |
 
-The packaged app opens a local browser window and stores generated files in the user's local application data folder. Signed installers, notarization, and app-store style distribution are not included yet.
+The packaged app opens a local browser window and stores generated files in the user's local application data folder. When the browser tab is closed, the local app server shuts down automatically after a short grace period. Signed installers, notarization, and app-store style distribution are not included yet.
 
 The VS Code and notebook workflow still works through `app.py`, `launcher.py`, and `heatmap.ipynb`.
 

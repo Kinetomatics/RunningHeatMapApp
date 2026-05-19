@@ -4,9 +4,11 @@ import os
 import socket
 import sys
 import threading
+import time
 import webbrowser
 from pathlib import Path
 
+from streamlit.runtime import get_instance
 from streamlit.web import cli as streamlit_cli
 
 
@@ -36,6 +38,27 @@ def find_free_port() -> int:
         return int(sock.getsockname()[1])
 
 
+def exit_after_browser_disconnect() -> None:
+    seen_browser_session = False
+    disconnected_since: float | None = None
+    while True:
+        time.sleep(1.0)
+        try:
+            runtime = get_instance()
+            active_sessions = runtime._session_mgr.num_active_sessions()
+        except RuntimeError:
+            continue
+        if active_sessions > 0:
+            seen_browser_session = True
+            disconnected_since = None
+            continue
+        if not seen_browser_session:
+            continue
+        disconnected_since = disconnected_since or time.monotonic()
+        if time.monotonic() - disconnected_since >= 8.0:
+            os._exit(0)
+
+
 def main() -> None:
     app_path = bundled_resource_path("app.py")
     data_root = app_data_root()
@@ -45,6 +68,7 @@ def main() -> None:
     local_url = f"http://127.0.0.1:{port}"
     if os.environ.get("RUNNING_HEATMAP_NO_BROWSER") != "1":
         threading.Timer(1.5, lambda: webbrowser.open(local_url)).start()
+    threading.Thread(target=exit_after_browser_disconnect, daemon=True).start()
     sys.argv = [
         "streamlit",
         "run",
