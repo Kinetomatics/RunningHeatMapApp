@@ -1,0 +1,10 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "pythonVersion": "3.14",
+  "include": [
+    "app.py",
+    "heatmap_core.py",
+    "launcher.py"
+  ]
+}

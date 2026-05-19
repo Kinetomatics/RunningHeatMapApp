@@ -1,0 +1,17 @@
+.DS_Store
+.venv/
+__pycache__/
+*.pyc
+.ruff_cache/
+.vscode/
+
+# Local user data and generated files
+app_data/
+outputs/
+cache/
+*.zip
+strava_export/
+
+# Packaging
+build/
+dist/
